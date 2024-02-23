@@ -1,0 +1,34 @@
+import 'package:curriculos_project/modules/admin/module/user_module.dart';
+import 'package:curriculos_project/modules/auth/controller/RegisterController.dart';
+import 'package:curriculos_project/modules/auth/service/AuthService.dart';
+import 'package:curriculos_project/modules/auth/service/LoginService.dart';
+
+import 'package:curriculos_project/modules/auth/service/RegisterService.dart';
+import 'package:curriculos_project/modules/auth/view/LoginPage.dart';
+
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../auth/view/RegisterPage.dart';
+
+// responsavel pela rota e pela sistema de injeção de depedencias
+class AuthModule extends Module {
+  // List<Module> get imports => [AppModule()];
+
+  @override
+  void binds(i) {
+    i.addInstance(Dio());
+    i.addSingleton(RegisterController.new);
+    i.addSingleton(RegisterService.new);
+    i.addSingleton(LoginService.new);
+    i.addSingleton(FlutterSecureStorage.new);
+    i.addSingleton(AuthService.new);
+  }
+
+  @override
+  void routes(r) {
+    r.child('/registro', child: (context) => RegisterPage());
+    r.child('/login', child: (context) => LoginPage());
+  }
+}
