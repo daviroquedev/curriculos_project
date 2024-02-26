@@ -1,46 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
-import '../../../service/CandidatoService.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
+import '../../../store/candidatos_store.dart';
 
 class CandidatoPage extends StatelessWidget {
-  final CandidatoService candidatoService = Modular.get<CandidatoService>();
+  final CandidatosStore candidatosStore = Modular.get<CandidatosStore>();
 
   @override
   Widget build(BuildContext context) {
+    candidatosStore.fetchCandidatos();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de Candidatos'),
       ),
       body: Center(
-        child: FutureBuilder<List<Map<String, dynamic>>>(
-          future: candidatoService.getCandidatos(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        child: Observer(
+          builder: (_) {
+            if (candidatosStore.candidatosFuture.status ==
+                FutureStatus.pending) {
               return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+            } else if (candidatosStore.candidatosFuture.status ==
+                FutureStatus.rejected) {
+              return Text('Error: ${candidatosStore.candidatosFuture.error}');
             } else {
-              List<Map<String, dynamic>> candidatos = snapshot.data ?? [];
+              List<Map<String, dynamic>> candidatos =
+                  candidatosStore.candidatos;
               return ListView.builder(
                 itemCount: candidatos.length,
                 itemBuilder: (context, index) {
                   final candidato = candidatos[index];
+                  final statusSolicitacao = candidato['statusSolicitacao'];
+                  final bool aprovado = statusSolicitacao == 'APROVADO';
+                  final bool reprovado = statusSolicitacao == 'REPROVADO';
                   return Card(
                     child: ListTile(
                       title: Text(
                         candidato['nome'],
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: aprovado
+                              ? Colors.green
+                              : reprovado
+                                  ? Colors.red
+                                  : Colors.black,
+                        ),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Escolaridade: ${candidato['escolaridade']}"),
-                          Text("Função: ${candidato['funcao']}"),
+                          Text("${candidato['escolaridade']}"),
+                          Text("${candidato['funcao']}"),
                           Text(
-                              "Competências: ${candidato['listaCompetencias'].join(', ')}"),
-                          Text(
-                              "Status da Solicitação: ${candidato['statusSolicitacao']}"),
+                            "SKILLS: ${candidato['listaCompetencias'].join(', ')}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Status: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                candidato['statusSolicitacao'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: aprovado
+                                      ? Colors.green
+                                      : reprovado
+                                          ? Colors.red
+                                          : Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       trailing: Row(
@@ -48,32 +86,47 @@ class CandidatoPage extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
-                              await candidatoService.atualizarStatusSolicitacao(
+                              await candidatosStore.atualizarStatusSolicitacao(
                                 candidato['id'],
-                                'aprovado',
+                                'APROVADO',
                                 context,
                               );
-                              // Atualize a lista de candidatos
-                              // após a conclusão da chamada de API
                               Modular.to
                                   .pushReplacementNamed('/admin/candidate');
                             },
-                            child: const Text('Aprovar'),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 0, 139, 63),
+                            ),
+                            child: const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           ElevatedButton(
                             onPressed: () async {
-                              await candidatoService.atualizarStatusSolicitacao(
+                              await candidatosStore.atualizarStatusSolicitacao(
                                 candidato['id'],
-                                'reprovado',
+                                'REPROVADO',
                                 context,
                               );
-                              // Atualize a lista de candidatos
-                              // após a conclusão da chamada de API
                               Modular.to
                                   .pushReplacementNamed('/admin/candidate');
                             },
-                            child: const Text('Reprovar'),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                            child: const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                            ),
                           ),
                         ],
                       ),

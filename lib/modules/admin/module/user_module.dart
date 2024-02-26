@@ -10,6 +10,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../service/CandidatoService.dart';
+import '../store/candidatos_store.dart';
 import '../view/candidatos/view/CandidatoPage.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias
@@ -21,6 +22,7 @@ class UserModule extends Module {
   void binds(i) {
     i.addSingleton(CandidatoService.new);
     i.addSingleton(FlutterSecureStorage.new);
+    i.addSingleton(CandidatosStore.new);
   }
 
   @override
