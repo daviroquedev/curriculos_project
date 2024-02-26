@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../../auth/interceptor/AuthInterceptor.dart';
+import '../../auth/interceptor/AuthInterceptor.dart';
 
 class CandidatoService {
   final Dio _dio = Dio();
@@ -22,6 +23,21 @@ class CandidatoService {
       }
     } catch (e) {
       throw Exception('Failed to connect to the server');
+    }
+  }
+
+  Future<void> atualizarStatusSolicitacao(int id, String status,
+      [BuildContext? context]) async {
+    try {
+      final response = await _dio.put(
+        'https://centralcurriculo.onrender.com/candidatos/$id/gerenciarSolicitacao',
+        queryParameters: {'status': status},
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update status');
+      }
+    } catch (e) {
+      throw Exception('Failed to update status');
     }
   }
 }

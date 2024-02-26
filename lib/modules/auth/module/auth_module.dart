@@ -10,6 +10,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../admin/controller/CandidatoController.dart';
 import '../../auth/view/RegisterPage.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias
@@ -19,7 +20,6 @@ class AuthModule extends Module {
   @override
   void binds(i) {
     i.addInstance(Dio());
-    i.addSingleton(RegisterController.new);
     i.addSingleton(RegisterService.new);
     i.addSingleton(LoginService.new);
     i.addSingleton(FlutterSecureStorage.new);

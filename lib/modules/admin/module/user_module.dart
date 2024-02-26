@@ -1,3 +1,4 @@
+import 'package:curriculos_project/modules/admin/controller/CandidatoController.dart';
 import 'package:curriculos_project/modules/admin/view/candidatos/view/AdminHomePage.dart';
 
 import 'package:curriculos_project/modules/guard/AuthGuard.dart';
@@ -8,7 +9,7 @@ import 'package:curriculos_project/modules/uteis/component/LoadingPage.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../view/candidatos/service/CandidatoService.dart';
+import '../service/CandidatoService.dart';
 import '../view/candidatos/view/CandidatoPage.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias

@@ -5,6 +5,7 @@ import 'package:curriculos_project/modules/auth/service/AuthService.dart';
 import 'package:curriculos_project/modules/home/view/HomePage.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'admin/controller/CandidatoController.dart';
 import 'guard/AuthGuard.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias
