@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import '../../../store/candidatos_store.dart';
+import '../../store/candidatos_store.dart';
+import '../componente/CustomBottomAppBar.dart';
 
 class CandidatoPage extends StatelessWidget {
   final CandidatosStore candidatosStore = Modular.get<CandidatosStore>();
@@ -137,6 +138,16 @@ class CandidatoPage extends StatelessWidget {
             }
           },
         ),
+      ),
+      bottomNavigationBar: CustomBottomAppBar(
+        onHomePressed: () {
+          Modular.to.navigate("/user/admin");
+          // Implemente a ação para retornar à tela inicial
+        },
+        onChartsPressed: () {
+          Modular.to.pushNamed("candidate/charts");
+          // Implemente a ação para acessar os gráficos
+        },
       ),
     );
   }
