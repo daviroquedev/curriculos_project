@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import '../../store/candidatos_store.dart';
-import '../componente/graficos/EscolaridadeChart.dart';
-import '../componente/graficos/SituacaoChart.dart';
+import '../../../store/candidatos_store.dart';
+import '../../componente/graficos/EscolaridadeChart.dart';
+import '../../componente/graficos/SituacaoChart.dart';
 
 class GraficosCandidatosPage extends StatelessWidget {
   final CandidatosStore candidatosStore = Modular.get<CandidatosStore>();

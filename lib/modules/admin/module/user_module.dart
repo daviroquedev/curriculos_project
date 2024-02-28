@@ -1,6 +1,7 @@
 import 'package:curriculos_project/modules/admin/controller/CandidatoController.dart';
 import 'package:curriculos_project/modules/admin/view/admin_view/AdminHomePage.dart';
-import 'package:curriculos_project/modules/admin/view/candidatos_view/GraficosCandidatosPage.dart';
+import 'package:curriculos_project/modules/admin/view/admin_view/admin_candidatos_view/GraficosCandidatosPage.dart';
+import 'package:curriculos_project/modules/admin/view/simple_user_view/UserPage.dart';
 
 import 'package:curriculos_project/modules/guard/AuthGuard.dart';
 
@@ -12,7 +13,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../service/CandidatoService.dart';
 import '../store/candidatos_store.dart';
-import '../view/candidatos_view/CandidatoPage.dart';
+import '../view/admin_view/admin_candidatos_view/CandidatoPage.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias
 class UserModule extends Module {
@@ -32,6 +33,7 @@ class UserModule extends Module {
 
     r.child('/admin',
         child: (context) => AdminHomePage(), guards: [AuthGuard()]);
+    r.child('/user', child: (context) => UserPage(), guards: [AuthGuard()]);
     r.child('/admin/candidate', child: (context) => CandidatoPage());
     r.child('/admin/candidate/charts',
         child: (context) => GraficosCandidatosPage());

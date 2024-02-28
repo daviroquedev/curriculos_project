@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                   if (role == 'ADMIN') {
                     Modular.to.navigate('/user/admin');
                   } else if (role == 'USER') {
-                    Modular.to.navigate('/user/candidate');
+                    Modular.to.navigate('/user/user');
                   }
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
