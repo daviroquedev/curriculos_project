@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import '../../store/candidatos_store.dart';
-import '../componente/CustomBottomAppBar.dart';
+import '../../../store/candidatos_store.dart';
+import '../../componente/CustomBottomAppBar.dart';
 
 class CandidatoPage extends StatelessWidget {
   final CandidatosStore candidatosStore = Modular.get<CandidatosStore>();

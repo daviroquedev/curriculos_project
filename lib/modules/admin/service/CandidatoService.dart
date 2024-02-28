@@ -1,3 +1,4 @@
+import 'package:curriculos_project/modules/admin/models/VagasResponseModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +13,7 @@ class CandidatoService {
         .add(AuthInterceptor(storage)); // Adicione o interceptor aqui
   }
 
+  // admin
   Future<List<Map<String, dynamic>>> getCandidatos() async {
     try {
       final response =
@@ -26,6 +28,7 @@ class CandidatoService {
     }
   }
 
+  // admin
   Future<void> atualizarStatusSolicitacao(int id, String status,
       [BuildContext? context]) async {
     try {
@@ -38,6 +41,38 @@ class CandidatoService {
       }
     } catch (e) {
       throw Exception('Failed to update status');
+    }
+  }
+
+  // admin ou user
+  Future<List<VagaResponseModel>> getVagas() async {
+    try {
+      final response =
+          await _dio.get('https://centralcurriculo.onrender.com/vagas');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final List<dynamic> responseData = response.data;
+        List<VagaResponseModel> vagas = responseData
+            .map((data) => VagaResponseModel.fromJson(data))
+            .toList();
+        return vagas;
+      } else {
+        throw Exception('Failed to load vagas');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server');
+    }
+  }
+
+  Future<void> candidatarVaga(int vagaId) async {
+    try {
+      final response = await _dio.post(
+        'https://centralcurriculo.onrender.com/vagas/$vagaId/candidatar',
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Failed to apply for job');
+      }
+    } catch (e) {
+      throw Exception('Failed to apply for job');
     }
   }
 }
