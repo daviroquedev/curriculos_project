@@ -23,7 +23,8 @@ class RegisterService {
           "telefone": formData.telefone,
           "escolaridade": formData.escolaridade,
           "funcao": formData.funcao,
-          "listaCompetencias": formData.competencias,
+          "competencias":
+              formData.competencias, // Passa a lista de objetos diretamente
           "statusSolicitacao": "Pendente",
           "role": "USER",
         },

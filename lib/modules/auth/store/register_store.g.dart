@@ -122,13 +122,13 @@ mixin _$RegisterStore on _RegisterStore, Store {
       Atom(name: '_RegisterStore.competencias', context: context);
 
   @override
-  List<String> get competencias {
+  List<Competencia> get competencias {
     _$competenciasAtom.reportRead();
     return super.competencias;
   }
 
   @override
-  set competencias(List<String> value) {
+  set competencias(List<Competencia> value) {
     _$competenciasAtom.reportWrite(value, super.competencias, () {
       super.competencias = value;
     });
@@ -154,6 +154,19 @@ mixin _$RegisterStore on _RegisterStore, Store {
         name: '_RegisterStore.setCpf');
     try {
       return super.setCpf(value);
+    } finally {
+      _$_RegisterStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addCompetencia(
+      {required String competencia, required int nivelProficiencia}) {
+    final _$actionInfo = _$_RegisterStoreActionController.startAction(
+        name: '_RegisterStore.addCompetencia');
+    try {
+      return super.addCompetencia(
+          competencia: competencia, nivelProficiencia: nivelProficiencia);
     } finally {
       _$_RegisterStoreActionController.endAction(_$actionInfo);
     }
@@ -215,7 +228,7 @@ mixin _$RegisterStore on _RegisterStore, Store {
   }
 
   @override
-  void setCompetencias(List<String> value) {
+  void setCompetencias(List<Competencia> value) {
     final _$actionInfo = _$_RegisterStoreActionController.startAction(
         name: '_RegisterStore.setCompetencias');
     try {

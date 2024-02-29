@@ -75,4 +75,22 @@ class CandidatoService {
       throw Exception('Failed to apply for job');
     }
   }
+
+  Future<List<VagaResponseModel>> getCandidatoVagas(int userId) async {
+    try {
+      final response = await _dio
+          .get('https://centralcurriculo.onrender.com/vagas/candidato/$userId');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final List<dynamic> responseData = response.data;
+        List<VagaResponseModel> vagas = responseData
+            .map((data) => VagaResponseModel.fromJson(data))
+            .toList();
+        return vagas;
+      } else {
+        throw Exception('Failed to load vagas');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server');
+    }
+  }
 }

@@ -21,6 +21,7 @@ class AuthModule extends Module {
   void binds(i) {
     i.addInstance(Dio());
     i.addSingleton(RegisterService.new);
+    i.addSingleton(RegisterController.new);
     i.addSingleton(LoginService.new);
     i.addSingleton(FlutterSecureStorage.new);
     i.addSingleton(AuthService.new);

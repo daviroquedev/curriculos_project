@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -71,24 +73,23 @@ class EscolaridadeChart extends StatelessWidget {
                 show: true,
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: (value, meta) {
-                      if (value.toInt() >= 0 &&
-                          value.toInt() < escolaridades.length) {
-                        String titulo = escolaridades[value.toInt()];
-                        titulo = titulo.substring(0, 3);
-                        return Text(
-                          titulo,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                          ),
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    },
-                  ),
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        if (value.toInt() >= 0 &&
+                            value.toInt() < escolaridades.length) {
+                          String titulo = escolaridades[value.toInt()];
+                          titulo = titulo.substring(0, min(3, titulo.length));
+                          return Text(
+                            titulo,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      }),
                 ),
                 leftTitles:
                     const AxisTitles(sideTitles: SideTitles(showTitles: true)),

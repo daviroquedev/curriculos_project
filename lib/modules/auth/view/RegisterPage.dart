@@ -9,7 +9,8 @@ import '../store/register_store.dart';
 class RegisterPage extends StatelessWidget {
   final RegisterController _controller = Modular.get<RegisterController>();
   final RegisterStore _registerStore = RegisterStore();
-  final TextEditingController _competenciasController = TextEditingController();
+  final TextEditingController _competenciaController = TextEditingController();
+  final TextEditingController _nivelController = TextEditingController();
 
   final List<String> opcoesEscolaridade = [
     'FUNDAMENTAL',
@@ -50,9 +51,7 @@ class RegisterPage extends StatelessWidget {
               builder: (_) => TextFormField(
                 onChanged: _registerStore.setCpf,
                 decoration: const InputDecoration(labelText: 'CPF'),
-                inputFormatters: [
-                  cpfMaskFormatter
-                ], // Adicione a máscara ao campo CPF
+                inputFormatters: [cpfMaskFormatter],
               ),
             ),
             Observer(
@@ -60,9 +59,7 @@ class RegisterPage extends StatelessWidget {
                 onChanged: _registerStore.setDataNascimento,
                 decoration:
                     const InputDecoration(labelText: 'Data de Nascimento'),
-                inputFormatters: [
-                  dateMaskFormatter
-                ], // Adicione a máscara ao campo de data de nascimento
+                inputFormatters: [dateMaskFormatter],
               ),
             ),
             Observer(
@@ -101,14 +98,30 @@ class RegisterPage extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Função'),
               ),
             ),
+            const SizedBox(height: 16),
             TextFormField(
-              controller: _competenciasController,
-              onChanged: (value) {
-                _registerStore.setCompetencias(
-                    value.split(',').map((e) => e.trim()).toList());
+              controller: _competenciaController,
+              decoration: const InputDecoration(labelText: 'Competência'),
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _nivelController,
+              keyboardType: TextInputType.number,
+              decoration:
+                  const InputDecoration(labelText: 'Nível de Proficiência'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                _registerStore.addCompetencia(
+                  competencia: _competenciaController.text,
+                  nivelProficiencia: int.tryParse(_nivelController.text) ?? 0,
+                );
+
+                _competenciaController.clear();
+                _nivelController.clear();
               },
-              decoration: const InputDecoration(
-                  labelText: 'Competências (separadas por vírgula)'),
+              child: const Text('Adicionar Competência'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -116,7 +129,6 @@ class RegisterPage extends StatelessWidget {
                 bool success = await _controller
                     .register(_registerStore.toFormDataModel());
                 if (success) {
-                  // Se o registro for bem-sucedido, exiba um modal de sucesso
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -125,8 +137,7 @@ class RegisterPage extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            // Fechar o modal e voltar para a tela de login
-                            Modular.to.pop("/login");
+                            Modular.to.pushNamed("/");
                           },
                           child: const Text('OK'),
                         ),
@@ -134,7 +145,6 @@ class RegisterPage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  // Se o registro falhar, exiba uma mensagem de erro
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(

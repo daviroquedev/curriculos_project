@@ -37,15 +37,21 @@ class CandidatoPage extends StatelessWidget {
                   final bool reprovado = statusSolicitacao == 'REPROVADO';
                   return Card(
                     child: ListTile(
-                      title: Text(
-                        candidato['nome'],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: aprovado
-                              ? Colors.green
-                              : reprovado
-                                  ? Colors.red
-                                  : Colors.black,
+                      title: GestureDetector(
+                        onTap: () {
+                          Modular.to.pushNamed(
+                              '/user/admin/candidate_vagas/${candidato['id']}');
+                        },
+                        child: Text(
+                          candidato['nome'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: aprovado
+                                ? Colors.green
+                                : reprovado
+                                    ? Colors.red
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                       subtitle: Column(
@@ -54,7 +60,7 @@ class CandidatoPage extends StatelessWidget {
                           Text("${candidato['escolaridade']}"),
                           Text("${candidato['funcao']}"),
                           Text(
-                            "SKILLS: ${candidato['listaCompetencias'].join(', ')}",
+                            "${candidato['competencias'].entries.map((entry) => '${entry.key}: NV. ${entry.value}').join(', ')}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),

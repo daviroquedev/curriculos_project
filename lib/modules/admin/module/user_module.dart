@@ -13,6 +13,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../service/CandidatoService.dart';
 import '../store/candidatos_store.dart';
+import '../view/admin_view/admin_candidato_vaga_relacao/CandidatoVagas.dart';
 import '../view/admin_view/admin_candidatos_view/CandidatoPage.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias
@@ -38,5 +39,9 @@ class UserModule extends Module {
     r.child('/admin/candidate/charts',
         child: (context) => GraficosCandidatosPage());
     r.child('/vagas', child: (context) => HomePage());
+    r.child('/admin/candidate_vagas/:id',
+        child: (context) => CandidatoVagas(
+              userId: int.parse(r.args.params['id']),
+            ));
   }
 }
