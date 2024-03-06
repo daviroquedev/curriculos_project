@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:curriculos_project/modules/admin/models/VagasResponseModel.dart';
-import 'package:curriculos_project/modules/admin/service/CandidatoService.dart';
+import 'package:curriculos_project/modules/usuarios/models/VagasResponseModel.dart';
+import 'package:curriculos_project/modules/usuarios/service/CandidatoService.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CandidatoVagas extends StatefulWidget {

@@ -13,11 +13,9 @@ class AuthGuard extends RouteGuard {
 
     if (role == 'ADMIN') {
       print("ADMIN");
-      // Modular.to.navigate("user/admin");
+
       return true;
     } else if (role == 'USER') {
-      //Modular.to.navigate("user/admin");
-
       print("USER");
 
       return true;

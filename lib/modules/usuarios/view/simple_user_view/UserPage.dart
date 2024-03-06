@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
 import '../../models/VagasResponseModel.dart';
 import '../../service/CandidatoService.dart';
 import '../componente/drawer/DrawerWidget.dart';
@@ -13,9 +12,39 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final CandidatoService _candidatoService = Modular.get<CandidatoService>();
 
-  // Máscara para formatar a data no padrão brasileiro (dd/MM/yyyy)
+  late String _nome;
+  late String _email;
+  late String _statusSolicitacao;
+
+  bool _isLoading = true;
+
   String formatarData(String data) {
     return '${data.substring(8, 10)}/${data.substring(5, 7)}/${data.substring(0, 4)}';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      Map<String, dynamic> userData =
+          await _candidatoService.getUsuarioLogado();
+
+      setState(() {
+        _nome = userData['nome'];
+        _email = userData['email'];
+        _statusSolicitacao = userData['statusSolicitacao'];
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Erro ao carregar os dados do usuário: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -24,7 +53,13 @@ class _UserPageState extends State<UserPage> {
       appBar: AppBar(
         title: const Text('Vagas Atuais'),
       ),
-      drawer: DrawerWidget(),
+      drawer: _isLoading
+          ? SizedBox()
+          : DrawerWidget(
+              nome: _nome,
+              email: _email,
+              statusSolicitacao: _statusSolicitacao,
+            ),
       body: FutureBuilder<List<VagaResponseModel>>(
         future: _candidatoService.getVagas(),
         builder: (context, snapshot) {

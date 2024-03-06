@@ -1,4 +1,4 @@
-import 'package:curriculos_project/modules/admin/models/VagasResponseModel.dart';
+import 'package:curriculos_project/modules/usuarios/models/VagasResponseModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -91,6 +91,34 @@ class CandidatoService {
       }
     } catch (e) {
       throw Exception('Failed to connect to the server');
+    }
+  }
+
+  Future<Map<String, dynamic>> getUsuarioLogado() async {
+    try {
+      final response =
+          await _dio.get('https://centralcurriculo.onrender.com/candidatos/me');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Map<String, dynamic>.from(response.data);
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server');
+    }
+  }
+
+  Future<void> atualizarUsuarioLogado(Map<String, dynamic> userData) async {
+    try {
+      final response = await _dio.put(
+        'https://centralcurriculo.onrender.com/candidatos/me',
+        data: userData,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update user data');
+      }
+    } catch (e) {
+      throw Exception('Failed to update user data');
     }
   }
 }

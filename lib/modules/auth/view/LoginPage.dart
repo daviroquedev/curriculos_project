@@ -43,7 +43,7 @@ class LoginPage extends StatelessWidget {
                   final role = await _authService.getRole();
                   print("ROLEEEE $role");
                   if (role == 'ADMIN') {
-                    Modular.to.navigate('/user/admin');
+                    Modular.to.pushNamed('/user/admin');
                   } else if (role == 'USER') {
                     Modular.to.navigate('/user/user');
                   }
