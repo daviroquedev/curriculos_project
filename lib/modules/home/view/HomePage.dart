@@ -21,23 +21,21 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/central_curriculo_logo.png', // Adicione seu logo aqui
-              width: 150, // Largura do logo
-              height: 150, // Altura do logo
+              'assets/images/central_curriculo_logo.png',
+              width: 150,
+              height: 150,
             ),
-            const SizedBox(height: 20), // Espaçamento entre o logo e o botão
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navegar para a tela de login
-                Modular.to.navigate("/auth/login");
+                Modular.to.pushNamed("/auth/login");
               },
               style: ElevatedButton.styleFrom(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                backgroundColor: const Color.fromARGB(
-                    255, 43, 54, 59), // Cor de fundo do botão
+                backgroundColor: const Color.fromARGB(255, 43, 54, 59),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // Borda arredondada
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
               child: const Text(

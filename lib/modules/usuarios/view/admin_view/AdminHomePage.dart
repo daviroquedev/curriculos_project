@@ -17,6 +17,7 @@ class AdminHomePage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                Modular.to.navigate('admin/jobs');
                 // Navegar para a página de vagas
                 // Navigator.pushNamed(context, 'user/jobs');
               },

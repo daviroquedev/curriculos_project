@@ -22,7 +22,7 @@ class LoginService {
         throw Exception('Falha no login');
       }
     } catch (e) {
-      throw Exception('Erro durante o login: $e');
+      throw Exception('Erro durante o login2: $e');
     }
   }
 }

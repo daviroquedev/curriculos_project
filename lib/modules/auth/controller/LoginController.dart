@@ -10,7 +10,7 @@ class LoginController {
       final token = await _loginService.login(cpf);
       return token;
     } catch (e) {
-      throw Exception('Erro durante o login: $e');
+      throw Exception('Erro durante o login1: $e');
     }
   }
 }

@@ -1,4 +1,4 @@
-import 'package:curriculos_project/modules/admin/module/user_module.dart';
+import 'package:curriculos_project/modules/usuarios/module/user_module.dart';
 import 'package:curriculos_project/modules/auth/controller/RegisterController.dart';
 import 'package:curriculos_project/modules/auth/service/AuthService.dart';
 import 'package:curriculos_project/modules/auth/service/LoginService.dart';
@@ -10,7 +10,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../admin/controller/CandidatoController.dart';
+import '../../usuarios/controller/CandidatoController.dart';
 import '../../auth/view/RegisterPage.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias
@@ -21,6 +21,7 @@ class AuthModule extends Module {
   void binds(i) {
     i.addInstance(Dio());
     i.addSingleton(RegisterService.new);
+    i.addSingleton(RegisterController.new);
     i.addSingleton(LoginService.new);
     i.addSingleton(FlutterSecureStorage.new);
     i.addSingleton(AuthService.new);

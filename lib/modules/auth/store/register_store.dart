@@ -1,6 +1,8 @@
 import 'package:curriculos_project/modules/auth/model/RegisterFormDataModel.dart';
 import 'package:mobx/mobx.dart';
 
+import '../model/Competencia.dart';
+
 part 'register_store.g.dart';
 
 class RegisterStore = _RegisterStore with _$RegisterStore;
@@ -28,7 +30,8 @@ abstract class _RegisterStore with Store {
   String funcao = '';
 
   @observable
-  List<String> competencias = [];
+  List<Competencia> competencias =
+      []; // Alteração do tipo de dados para lista de Competencia
 
   @action
   void setNome(String value) {
@@ -38,6 +41,13 @@ abstract class _RegisterStore with Store {
   @action
   void setCpf(String value) {
     cpf = value;
+  }
+
+  @action
+  void addCompetencia(
+      {required String competencia, required int nivelProficiencia}) {
+    competencias.add(Competencia(
+        competencia: competencia, nivelProficiencia: nivelProficiencia));
   }
 
   @action
@@ -66,7 +76,8 @@ abstract class _RegisterStore with Store {
   }
 
   @action
-  void setCompetencias(List<String> value) {
+  void setCompetencias(List<Competencia> value) {
+    // Alteração do tipo de parâmetro
     competencias = value;
   }
 
@@ -79,7 +90,7 @@ abstract class _RegisterStore with Store {
       telefone: telefone,
       escolaridade: escolaridade,
       funcao: funcao,
-      competencias: List<String>.from(competencias),
+      competencias: competencias,
     );
   }
 }
