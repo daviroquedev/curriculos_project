@@ -35,6 +35,7 @@ class RegisterPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Registro'),
       ),
+      backgroundColor: const Color.fromARGB(255, 2, 95, 156),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -43,34 +44,53 @@ class RegisterPage extends StatelessWidget {
             Observer(
               builder: (_) => TextFormField(
                 onChanged: _registerStore.setNome,
-                decoration: const InputDecoration(labelText: 'Nome'),
+                decoration: InputDecoration(
+                  labelText: 'Nome',
+                  labelStyle:
+                      TextStyle(color: Colors.white), // Cor do texto branco
+                ),
               ),
             ),
             Observer(
               builder: (_) => TextFormField(
                 onChanged: _registerStore.setCpf,
-                decoration: const InputDecoration(labelText: 'CPF'),
+                decoration: InputDecoration(
+                  labelText: 'CPF',
+                  labelStyle:
+                      TextStyle(color: Colors.white), // Cor do texto branco
+                ),
                 inputFormatters: [cpfMaskFormatter],
               ),
             ),
             Observer(
               builder: (_) => TextFormField(
                 onChanged: _registerStore.setDataNascimento,
-                decoration:
-                    const InputDecoration(labelText: 'Data de Nascimento'),
+                decoration: InputDecoration(
+                  labelText: 'Data de Nascimento',
+                  labelStyle:
+                      TextStyle(color: Colors.white), // Cor do texto branco
+                ),
                 inputFormatters: [dateMaskFormatter],
               ),
             ),
             Observer(
               builder: (_) => TextFormField(
                 onChanged: _registerStore.setEmail,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle:
+                      TextStyle(color: Colors.white), // Cor do texto branco
+                ),
               ),
             ),
             Observer(
               builder: (_) => TextFormField(
                 onChanged: _registerStore.setTelefone,
-                decoration: const InputDecoration(labelText: 'Telefone'),
+                decoration: InputDecoration(
+                  labelText: 'Telefone',
+                  labelStyle:
+                      TextStyle(color: Colors.white), // Cor do texto branco
+                ),
                 inputFormatters: [phoneMaskFormatter],
               ),
             ),
@@ -85,29 +105,44 @@ class RegisterPage extends StatelessWidget {
                 items: opcoesEscolaridade.map((escolaridade) {
                   return DropdownMenuItem(
                     value: escolaridade,
-                    child: Text(escolaridade),
+                    child: Text(escolaridade,
+                        style: TextStyle(
+                            color: Colors.white)), // Cor do texto branco
                   );
                 }).toList(),
-                decoration: const InputDecoration(labelText: 'Escolaridade'),
+                decoration: const InputDecoration(
+                    labelText: 'Escolaridade',
+                    labelStyle: TextStyle(color: Colors.white)),
               ),
             ),
             Observer(
               builder: (_) => TextFormField(
                 onChanged: _registerStore.setFuncao,
-                decoration: const InputDecoration(labelText: 'Função'),
+                decoration: InputDecoration(
+                  labelText: 'Função',
+                  labelStyle:
+                      TextStyle(color: Colors.white), // Cor do texto branco
+                ),
               ),
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _competenciaController,
-              decoration: const InputDecoration(labelText: 'Competência'),
+              decoration: InputDecoration(
+                labelText: 'Competência',
+                labelStyle:
+                    TextStyle(color: Colors.white), // Cor do texto branco
+              ),
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _nivelController,
               keyboardType: TextInputType.number,
-              decoration:
-                  const InputDecoration(labelText: 'Nível de Proficiência'),
+              decoration: InputDecoration(
+                labelText: 'Nível de Proficiência',
+                labelStyle:
+                    TextStyle(color: Colors.white), // Cor do texto branco
+              ),
             ),
             Observer(
               builder: (_) => Column(
@@ -116,9 +151,11 @@ class RegisterPage extends StatelessWidget {
                   return ListTile(
                     title: Text(
                       '${entry.value.competencia} - Nível: ${entry.value.nivelProficiencia}',
+                      style:
+                          TextStyle(color: Colors.white), // Cor do texto branco
                     ),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
                         _registerStore.competencias.removeAt(entry.key);
                       },
@@ -127,6 +164,7 @@ class RegisterPage extends StatelessWidget {
                 }).toList(),
               ),
             ),
+            const SizedBox(height: 10),
             Observer(
               builder: (_) => ElevatedButton(
                 onPressed: () {
@@ -137,10 +175,17 @@ class RegisterPage extends StatelessWidget {
                   _competenciaController.clear();
                   _nivelController.clear();
                 },
-                child: const Text('Adicionar Competência'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: Color.fromARGB(255, 52, 136, 132),
+                ),
+                child: const Text('Adicionar Competência',
+                    style: TextStyle(color: Colors.white)),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
                 bool success = await _controller
@@ -165,12 +210,20 @@ class RegisterPage extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(
-                          'Erro durante o registro. Por favor, tente novamente.'),
+                        'Erro durante o registro. Por favor, tente novamente.',
+                      ),
                     ),
                   );
                 }
               },
-              child: const Text('Registrar'),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                backgroundColor: Color.fromARGB(255, 2, 63, 0),
+              ),
+              child: const Text('Registrar',
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
