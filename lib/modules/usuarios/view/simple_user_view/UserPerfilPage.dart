@@ -29,12 +29,12 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil do Usuário'),
+        title: const Text('Perfil do Usuário'),
       ),
       body: Observer(
         builder: (_) {
           if (_candidatosStore.nome.isEmpty) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else {
             return _buildForm();
           }
@@ -45,54 +45,63 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
 
   Widget _buildForm() {
     return ListView(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       children: [
         Observer(
           builder: (_) => TextFormField(
             onChanged: _candidatosStore.setNome,
             initialValue: _candidatosStore.nome,
-            decoration: InputDecoration(labelText: 'Nome'),
+            decoration: const InputDecoration(labelText: 'Nome'),
           ),
         ),
         Observer(
           builder: (_) => TextFormField(
             onChanged: _candidatosStore.setCpf,
             initialValue: _candidatosStore.cpf,
-            decoration: InputDecoration(labelText: 'CPF'),
+            decoration: const InputDecoration(labelText: 'CPF'),
           ),
         ),
         Observer(
           builder: (_) => TextFormField(
             onChanged: _candidatosStore.setDataNascimento,
             initialValue: _candidatosStore.dataNascimento,
-            decoration: InputDecoration(labelText: 'Data de Nascimento'),
+            decoration: const InputDecoration(labelText: 'Data de Nascimento'),
           ),
         ),
         Observer(
           builder: (_) => TextFormField(
             onChanged: _candidatosStore.setEmail,
             initialValue: _candidatosStore.email,
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(labelText: 'Email'),
           ),
         ),
         Observer(
           builder: (_) => TextFormField(
             onChanged: _candidatosStore.setTelefone,
             initialValue: _candidatosStore.telefone,
-            decoration: InputDecoration(labelText: 'Telefone'),
+            decoration: const InputDecoration(labelText: 'Telefone'),
           ),
         ),
         Observer(
           builder: (_) => TextFormField(
             onChanged: _candidatosStore.setEscolaridade,
             initialValue: _candidatosStore.escolaridade,
-            decoration: InputDecoration(labelText: 'Escolaridade'),
+            decoration: const InputDecoration(labelText: 'Escolaridade'),
           ),
         ),
-        SizedBox(height: 20),
+        ListTile(
+          title: const Text('Competências'),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _candidatosStore.competencias.entries
+                .map((entry) => Text('${entry.key}: ${entry.value}'))
+                .toList(),
+          ),
+        ),
+        const SizedBox(height: 20),
         ElevatedButton(
           onPressed: _salvar,
-          child: Text('Salvar'),
+          child: const Text('Salvar'),
         ),
       ],
     );
@@ -113,7 +122,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
       await _candidatosStore.atualizarUsuarioLogado(userData);
       // Mostre uma mensagem de sucesso ao usuário
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Dados atualizados com sucesso'),
         ),
       );

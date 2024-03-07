@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
 import '../controller/RegisterController.dart';
 import '../store/register_store.dart';
 
 class RegisterPage extends StatelessWidget {
   final RegisterController _controller = Modular.get<RegisterController>();
-  final RegisterStore _registerStore = RegisterStore();
+  final RegisterStore _registerStore = Modular.get<RegisterStore>();
   final TextEditingController _competenciaController = TextEditingController();
   final TextEditingController _nivelController = TextEditingController();
 
@@ -110,18 +109,36 @@ class RegisterPage extends StatelessWidget {
               decoration:
                   const InputDecoration(labelText: 'Nível de Proficiência'),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _registerStore.addCompetencia(
-                  competencia: _competenciaController.text,
-                  nivelProficiencia: int.tryParse(_nivelController.text) ?? 0,
-                );
-
-                _competenciaController.clear();
-                _nivelController.clear();
-              },
-              child: const Text('Adicionar Competência'),
+            Observer(
+              builder: (_) => Column(
+                children:
+                    _registerStore.competencias.asMap().entries.map((entry) {
+                  return ListTile(
+                    title: Text(
+                      '${entry.value.competencia} - Nível: ${entry.value.nivelProficiencia}',
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        _registerStore.competencias.removeAt(entry.key);
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            Observer(
+              builder: (_) => ElevatedButton(
+                onPressed: () {
+                  _registerStore.addCompetencia(
+                    competencia: _competenciaController.text,
+                    nivelProficiencia: int.tryParse(_nivelController.text) ?? 0,
+                  );
+                  _competenciaController.clear();
+                  _nivelController.clear();
+                },
+                child: const Text('Adicionar Competência'),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(

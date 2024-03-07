@@ -48,6 +48,12 @@ abstract class _CandidatosStore with Store {
   void setEscolaridade(String value) => escolaridade = value;
 
   @observable
+  Map<String, dynamic> competencias = {};
+
+  @action
+  void setCompetencias(Map<String, dynamic> value) => competencias = value;
+
+  @observable
   ObservableFuture<List<Map<String, dynamic>>> candidatosFuture =
       ObservableFuture.value([]);
 
@@ -65,7 +71,7 @@ abstract class _CandidatosStore with Store {
       int id, String status, BuildContext context) async {
     try {
       await candidatoService.atualizarStatusSolicitacao(id, status);
-      fetchCandidatos(); // Atualiza a lista de candidatos após a chamada de API
+      fetchCandidatos();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -86,6 +92,7 @@ abstract class _CandidatosStore with Store {
       setEmail(userData['email']);
       setTelefone(userData['telefone']);
       setEscolaridade(userData['escolaridade']);
+      setCompetencias(userData['competencias']);
     } catch (e) {
       throw Exception('Erro ao obter os dados do usuário logado: $e');
     }

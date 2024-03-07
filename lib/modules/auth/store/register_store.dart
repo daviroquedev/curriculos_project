@@ -30,8 +30,7 @@ abstract class _RegisterStore with Store {
   String funcao = '';
 
   @observable
-  List<Competencia> competencias =
-      []; // Alteração do tipo de dados para lista de Competencia
+  ObservableList<Competencia> competencias = ObservableList();
 
   @action
   void setNome(String value) {
@@ -48,6 +47,8 @@ abstract class _RegisterStore with Store {
       {required String competencia, required int nivelProficiencia}) {
     competencias.add(Competencia(
         competencia: competencia, nivelProficiencia: nivelProficiencia));
+    // Chame setCompetencias sempre que houver uma alteração na lista
+    setCompetencias(competencias.toList());
   }
 
   @action
@@ -78,7 +79,8 @@ abstract class _RegisterStore with Store {
   @action
   void setCompetencias(List<Competencia> value) {
     // Alteração do tipo de parâmetro
-    competencias = value;
+    competencias.clear();
+    competencias.addAll(value);
   }
 
   RegisterFormDataModel toFormDataModel() {
@@ -90,7 +92,7 @@ abstract class _RegisterStore with Store {
       telefone: telefone,
       escolaridade: escolaridade,
       funcao: funcao,
-      competencias: competencias,
+      competencias: competencias.toList(), // Convertendo para uma lista normal
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../usuarios/controller/CandidatoController.dart';
 import '../../auth/view/RegisterPage.dart';
+import '../store/register_store.dart';
 
 // responsavel pela rota e pela sistema de injeção de depedencias
 class AuthModule extends Module {
@@ -22,6 +23,7 @@ class AuthModule extends Module {
     i.addInstance(Dio());
     i.addSingleton(RegisterService.new);
     i.addSingleton(RegisterController.new);
+    i.addSingleton(RegisterStore.new);
     i.addSingleton(LoginService.new);
     i.addSingleton(FlutterSecureStorage.new);
     i.addSingleton(AuthService.new);

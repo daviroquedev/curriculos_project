@@ -111,6 +111,22 @@ mixin _$CandidatosStore on _CandidatosStore, Store {
     });
   }
 
+  late final _$competenciasAtom =
+      Atom(name: '_CandidatosStore.competencias', context: context);
+
+  @override
+  Map<String, dynamic> get competencias {
+    _$competenciasAtom.reportRead();
+    return super.competencias;
+  }
+
+  @override
+  set competencias(Map<String, dynamic> value) {
+    _$competenciasAtom.reportWrite(value, super.competencias, () {
+      super.competencias = value;
+    });
+  }
+
   late final _$candidatosFutureAtom =
       Atom(name: '_CandidatosStore.candidatosFuture', context: context);
 
@@ -225,6 +241,17 @@ mixin _$CandidatosStore on _CandidatosStore, Store {
   }
 
   @override
+  void setCompetencias(Map<String, dynamic> value) {
+    final _$actionInfo = _$_CandidatosStoreActionController.startAction(
+        name: '_CandidatosStore.setCompetencias');
+    try {
+      return super.setCompetencias(value);
+    } finally {
+      _$_CandidatosStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void fetchCandidatos() {
     final _$actionInfo = _$_CandidatosStoreActionController.startAction(
         name: '_CandidatosStore.fetchCandidatos');
@@ -244,6 +271,7 @@ dataNascimento: ${dataNascimento},
 email: ${email},
 telefone: ${telefone},
 escolaridade: ${escolaridade},
+competencias: ${competencias},
 candidatosFuture: ${candidatosFuture},
 candidatos: ${candidatos}
     ''';

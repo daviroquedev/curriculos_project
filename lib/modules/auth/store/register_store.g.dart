@@ -122,13 +122,13 @@ mixin _$RegisterStore on _RegisterStore, Store {
       Atom(name: '_RegisterStore.competencias', context: context);
 
   @override
-  List<Competencia> get competencias {
+  ObservableList<Competencia> get competencias {
     _$competenciasAtom.reportRead();
     return super.competencias;
   }
 
   @override
-  set competencias(List<Competencia> value) {
+  set competencias(ObservableList<Competencia> value) {
     _$competenciasAtom.reportWrite(value, super.competencias, () {
       super.competencias = value;
     });
