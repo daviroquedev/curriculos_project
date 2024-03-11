@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 class AdminHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var currentUrl = Uri.base; // Mova esta linha para cá
+    var currentUrl = Uri.base;
     print('URL atual: $currentUrl');
 
     return Scaffold(
@@ -17,16 +17,14 @@ class AdminHomePage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Modular.to.navigate('admin/jobs');
-                // Navegar para a página de vagas
-                // Navigator.pushNamed(context, 'user/jobs');
+                Modular.to.pushNamed('admin/jobs');
               },
               child: Text('VER PAINEL DE VAGAS'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Modular.to.navigate('admin/candidate');
+                Modular.to.pushNamed('admin/candidate');
               },
               child: Text('CANDIDATOS'),
             ),

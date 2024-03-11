@@ -10,10 +10,10 @@ class RegisterController {
   Future<bool> register(RegisterFormDataModel formData) async {
     try {
       await _registerService.register(formData);
-      return true; // Registro bem-sucedido
+      return true;
     } catch (e) {
       print("Erro durante o registro: $e");
-      return false; // Registro falhou
+      return false;
     }
   }
 }

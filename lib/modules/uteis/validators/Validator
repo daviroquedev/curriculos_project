@@ -1,0 +1,99 @@
+class Validators {
+  static String? emailFieldValidation(String? email) {
+    if (email == null || email.isEmpty) {
+      return 'Campo obrigatório';
+    }
+
+    if (!emailRegex.hasMatch(email)) {
+      return 'Email inválido';
+    }
+
+    final username = email.split('@')[0];
+    if (username.length < 6 || username.length > 30) {
+      return 'Email inválido';
+    }
+
+    final usernameAfter = email.split('@')[1];
+    if (usernameAfter.length > 64) {
+      return 'Email inválido';
+    }
+
+    return null;
+  }
+
+  static String? passValidation(String? pass) {
+    if (pass == null || pass.isEmpty) {
+      return 'Campo obrigatório';
+    }
+    if (pass.length < 6) {
+      return 'Mínimo 6 caracteres';
+    }
+    if (pass.length > 64) {
+      return 'No máximo 64 caracteres';
+    }
+    return null;
+  }
+
+  static String? confirmPassValidation(String? pass, String? confirmPass) {
+    if (pass == null || pass.isEmpty) {
+      return 'Campo obrigatório';
+    }
+    if (pass.length < 6) {
+      return 'Mínimo 6 caracteres';
+    }
+    if (pass.length > 64) {
+      return 'No máximo 64 caracteres';
+    }
+    if (pass != confirmPass) {
+      return 'Senhas não coincidem';
+    }
+
+    return null;
+  }
+
+  // Valida campo obrigatório.
+  static String? requiredInputField(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo obrigatório';
+    }
+    return null;
+  }
+
+    static String? requiredCellPhoneInputField(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo obrigatório';
+    }
+    if (value.length != 15) {
+      return 'Celular inválido';
+    }
+    return null;
+  }
+
+  // Valida cep obrigatório.
+  static String? requiredCepInputField(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo obrigatório';
+    }
+    if (value.length != 9) {
+      return 'CEP inválido';
+    }
+    return null;
+  }
+
+  static String? validateFutureDateInputField(String? date) {
+    if (date!.length != 10) {
+      return "Data inválida";
+    }
+    DateTime now = tz.TZDateTime.now(tz.local);
+    DateTime today = DateTime(now.year, now.month, now.day);
+
+    //yyyy-MM-dd
+    String dateAux =
+        "${date.substring(6, 10)}-${date.substring(3, 5)}-${date.substring(0, 2)}";
+    int compare = dateAux.compareTo(today.toString().substring(0, 10));
+
+    if (compare == 1) {
+      return null;
+  }
+  }
+}

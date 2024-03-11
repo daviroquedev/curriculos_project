@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 // Navegar para a tela de registro
-                Modular.to.navigate("/auth/registro");
+                Modular.to.pushNamed("/auth/registro");
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),

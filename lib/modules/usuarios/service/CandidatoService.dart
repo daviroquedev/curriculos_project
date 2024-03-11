@@ -72,7 +72,7 @@ class CandidatoService {
         throw Exception('Failed to apply for job');
       }
     } catch (e) {
-      throw Exception('Failed to apply for job');
+      throw Exception('Failed to apply for job!!');
     }
   }
 
@@ -114,7 +114,7 @@ class CandidatoService {
         'https://centralcurriculo.onrender.com/candidatos/me',
         data: userData,
       );
-      if (response.statusCode != 200) {
+      if (response.statusCode != 200 || response.statusCode != 201) {
         throw Exception('Failed to update user data');
       }
     } catch (e) {

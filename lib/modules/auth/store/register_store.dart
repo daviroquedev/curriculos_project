@@ -47,7 +47,6 @@ abstract class _RegisterStore with Store {
       {required String competencia, required int nivelProficiencia}) {
     competencias.add(Competencia(
         competencia: competencia, nivelProficiencia: nivelProficiencia));
-    // Chame setCompetencias sempre que houver uma alteração na lista
     setCompetencias(competencias.toList());
   }
 
@@ -92,7 +91,7 @@ abstract class _RegisterStore with Store {
       telefone: telefone,
       escolaridade: escolaridade,
       funcao: funcao,
-      competencias: competencias.toList(), // Convertendo para uma lista normal
+      competencias: competencias.toList(),
     );
   }
 }

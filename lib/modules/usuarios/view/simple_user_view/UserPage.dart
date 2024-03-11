@@ -1,7 +1,9 @@
+import 'package:curriculos_project/modules/uteis/formats/FormatadoresUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import '../../models/VagasResponseModel.dart';
-import '../../service/CandidatoService.dart';
+import '../../store/user_vagas_store.dart';
 import '../componente/drawer/DrawerWidget.dart';
 
 class UserPage extends StatefulWidget {
@@ -10,41 +12,17 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final CandidatoService _candidatoService = Modular.get<CandidatoService>();
-
-  late String _nome;
-  late String _email;
-  late String _statusSolicitacao;
-
-  bool _isLoading = true;
-
-  String formatarData(String data) {
-    return '${data.substring(8, 10)}/${data.substring(5, 7)}/${data.substring(0, 4)}';
-  }
+  final UserVagasStore _store = Modular.get<UserVagasStore>();
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
+    _loadData();
   }
 
-  Future<void> _loadUserData() async {
-    try {
-      Map<String, dynamic> userData =
-          await _candidatoService.getUsuarioLogado();
-
-      setState(() {
-        _nome = userData['nome'];
-        _email = userData['email'];
-        _statusSolicitacao = userData['statusSolicitacao'];
-        _isLoading = false;
-      });
-    } catch (e) {
-      print('Erro ao carregar os dados do usuário: $e');
-      setState(() {
-        _isLoading = false;
-      });
-    }
+  Future<void> _loadData() async {
+    await _store.loadUserData();
+    await _store.loadVagas();
   }
 
   @override
@@ -53,33 +31,36 @@ class _UserPageState extends State<UserPage> {
       appBar: AppBar(
         title: const Text('Vagas Atuais'),
       ),
-      drawer: _isLoading
-          ? SizedBox()
-          : DrawerWidget(
-              nome: _nome,
-              email: _email,
-              statusSolicitacao: _statusSolicitacao,
-            ),
-      body: FutureBuilder<List<VagaResponseModel>>(
-        future: _candidatoService.getVagas(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+      drawer: Observer(
+        builder: (_) {
+          if (_store.isLoading) {
+            return SizedBox();
+          } else {
+            return DrawerWidget(
+              nome: _store.nome,
+              email: _store.email,
+              statusSolicitacao: _store.statusSolicitacao,
+            );
+          }
+        },
+      ),
+      body: Observer(
+        builder: (_) {
+          final vagas = _store.vagas;
+          if (_store.isLoading) {
+            return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Erro ao carregar as vagas: ${snapshot.error}'),
-            );
           } else {
-            final List<VagaResponseModel> vagas = snapshot.data ?? [];
             return ListView.builder(
               itemCount: vagas.length,
               itemBuilder: (context, index) {
                 final vaga = vagas[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                    vertical: 8.0,
+                    horizontal: 16.0,
+                  ),
                   child: Card(
                     elevation: 4,
                     child: ListTile(
@@ -87,37 +68,42 @@ class _UserPageState extends State<UserPage> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Inicio: ${formatarData(vaga.dataInicio)}'),
                           Text(
-                              'Expiração: ${formatarData(vaga.dataExpiracao)}'),
+                            'Inicio: ${FormatadoresUtils.formatarData(vaga.dataInicio)}',
+                          ),
+                          Text(
+                            'Expiração: ${FormatadoresUtils.formatarData(vaga.dataExpiracao)}',
+                          ),
                           Text('Descrição: ${vaga.descricao}'),
                           Text('Salário RS : ${vaga.salario}'),
                           Text(
-                              'Nº Candidatos Aplicados: ${vaga.totalDeCandidatosAplicado}'),
+                            'Nº Candidatos Aplicados: ${vaga.totalDeCandidatosAplicado}',
+                          ),
                         ],
                       ),
-                      trailing: ElevatedButton(
-                        onPressed: () async {
-                          if (vaga.candidatoJaCandidatou) {
-                            return;
-                          }
+                      trailing: Observer(
+                        builder: (_) {
+                          return ElevatedButton(
+                            onPressed: () async {
+                              if (vaga.candidatoJaCandidatou) {
+                                return;
+                              }
+                              await _store.candidatarVaga(
+                                vaga.id,
+                              );
 
-                          try {
-                            await _candidatoService.candidatarVaga(vaga.id);
-                            setState(() {
-                              vaga.candidatoJaCandidatou = true;
-                            });
-                          } catch (e) {
-                            print('Erro ao se candidatar: $e');
-                          }
+                              await _store.loadVagas();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: vaga.candidatoJaCandidatou
+                                  ? Colors.grey
+                                  : null,
+                            ),
+                            child: vaga.candidatoJaCandidatou
+                                ? const Text('ALISTADO')
+                                : const Text('CANDIDATAR'),
+                          );
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              vaga.candidatoJaCandidatou ? Colors.grey : null,
-                        ),
-                        child: vaga.candidatoJaCandidatou
-                            ? const Text('ALISTADO')
-                            : const Text('CANDIDATAR'),
                       ),
                     ),
                   ),

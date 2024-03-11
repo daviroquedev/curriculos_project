@@ -66,7 +66,6 @@ class _CandidatoVagasState extends State<CandidatoVagas> {
                             vaga.descricao,
                             style: TextStyle(fontSize: 16),
                           ),
-                          // Adicione mais informações da vaga conforme necessário
                         ],
                       ),
                     ),

@@ -8,7 +8,7 @@ class RegisterFormDataModel {
   String telefone;
   String escolaridade;
   String funcao;
-  List<Competencia> competencias; // Agora a lista é de objetos Competencia
+  List<Competencia> competencias;
 
   RegisterFormDataModel({
     this.nome = '',
@@ -22,7 +22,6 @@ class RegisterFormDataModel {
   });
 
   Map<String, dynamic> toJson() {
-    // Filtrar as competências vazias antes de converter para JSON
     final competenciasPreenchidas =
         competencias.where((c) => c.competencia.isNotEmpty).toList();
 

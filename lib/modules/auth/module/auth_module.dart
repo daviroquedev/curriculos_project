@@ -14,7 +14,6 @@ import '../../usuarios/controller/CandidatoController.dart';
 import '../../auth/view/RegisterPage.dart';
 import '../store/register_store.dart';
 
-// responsavel pela rota e pela sistema de injeção de depedencias
 class AuthModule extends Module {
   // List<Module> get imports => [AppModule()];
 

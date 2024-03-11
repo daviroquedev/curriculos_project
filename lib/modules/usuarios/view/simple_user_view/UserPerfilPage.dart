@@ -109,7 +109,14 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
 
   void _salvar() async {
     try {
-      // Crie um novo mapa com os dados atualizados
+      List<Map<String, dynamic>> competenciasList = [];
+      _candidatosStore.competencias.entries.forEach((entry) {
+        competenciasList.add({
+          'competencia': entry.key,
+          'nivelProficiencia': entry.value,
+        });
+      });
+
       Map<String, dynamic> userData = {
         'nome': _candidatosStore.nome,
         'cpf': _candidatosStore.cpf,
@@ -117,7 +124,13 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
         'email': _candidatosStore.email,
         'telefone': _candidatosStore.telefone,
         'escolaridade': _candidatosStore.escolaridade,
+        'funcao': 'Nova Função',
+        'competencias': competenciasList,
+        'statusSolicitacao': _candidatosStore
+            .statusSolicitacao, // Adicione o status da solicitação conforme necessário
+        'role': _candidatosStore.role, // Adicione a role conforme necessário
       };
+
       // Chame o método de atualização do store passando os dados
       await _candidatosStore.atualizarUsuarioLogado(userData);
       // Mostre uma mensagem de sucesso ao usuário

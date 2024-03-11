@@ -54,6 +54,18 @@ abstract class _CandidatosStore with Store {
   void setCompetencias(Map<String, dynamic> value) => competencias = value;
 
   @observable
+  String statusSolicitacao = '';
+
+  @action
+  void setStatusSolicitacao(String value) => statusSolicitacao = value;
+
+  @observable
+  String role = '';
+
+  @action
+  void setRole(String value) => role = value;
+
+  @observable
   ObservableFuture<List<Map<String, dynamic>>> candidatosFuture =
       ObservableFuture.value([]);
 
@@ -66,7 +78,6 @@ abstract class _CandidatosStore with Store {
     candidatosFuture = ObservableFuture(candidatoService.getCandidatos());
   }
 
-  @action
   Future<void> atualizarStatusSolicitacao(
       int id, String status, BuildContext context) async {
     try {
@@ -93,6 +104,8 @@ abstract class _CandidatosStore with Store {
       setTelefone(userData['telefone']);
       setEscolaridade(userData['escolaridade']);
       setCompetencias(userData['competencias']);
+      setStatusSolicitacao(userData['statusSolicitacao']);
+      setRole(userData['role']);
     } catch (e) {
       throw Exception('Erro ao obter os dados do usuário logado: $e');
     }

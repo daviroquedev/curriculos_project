@@ -23,21 +23,17 @@ class RegisterService {
           "telefone": formData.telefone,
           "escolaridade": formData.escolaridade,
           "funcao": formData.funcao,
-          "competencias":
-              formData.competencias, // Passa a lista de objetos diretamente
+          "competencias": formData.competencias,
           "statusSolicitacao": "Pendente",
           "role": "USER",
         },
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Sucesso
         print("Registro realizado com sucesso!");
       } else {
-        // Tratar erro
         print("Erro durante o registro: ${response.statusCode}");
       }
     } catch (e) {
-      // Tratar erro
       print("Erro durante o registro: $e");
     }
   }

@@ -127,6 +127,37 @@ mixin _$CandidatosStore on _CandidatosStore, Store {
     });
   }
 
+  late final _$statusSolicitacaoAtom =
+      Atom(name: '_CandidatosStore.statusSolicitacao', context: context);
+
+  @override
+  String get statusSolicitacao {
+    _$statusSolicitacaoAtom.reportRead();
+    return super.statusSolicitacao;
+  }
+
+  @override
+  set statusSolicitacao(String value) {
+    _$statusSolicitacaoAtom.reportWrite(value, super.statusSolicitacao, () {
+      super.statusSolicitacao = value;
+    });
+  }
+
+  late final _$roleAtom = Atom(name: '_CandidatosStore.role', context: context);
+
+  @override
+  String get role {
+    _$roleAtom.reportRead();
+    return super.role;
+  }
+
+  @override
+  set role(String value) {
+    _$roleAtom.reportWrite(value, super.role, () {
+      super.role = value;
+    });
+  }
+
   late final _$candidatosFutureAtom =
       Atom(name: '_CandidatosStore.candidatosFuture', context: context);
 
@@ -252,6 +283,28 @@ mixin _$CandidatosStore on _CandidatosStore, Store {
   }
 
   @override
+  void setStatusSolicitacao(String value) {
+    final _$actionInfo = _$_CandidatosStoreActionController.startAction(
+        name: '_CandidatosStore.setStatusSolicitacao');
+    try {
+      return super.setStatusSolicitacao(value);
+    } finally {
+      _$_CandidatosStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setRole(String value) {
+    final _$actionInfo = _$_CandidatosStoreActionController.startAction(
+        name: '_CandidatosStore.setRole');
+    try {
+      return super.setRole(value);
+    } finally {
+      _$_CandidatosStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void fetchCandidatos() {
     final _$actionInfo = _$_CandidatosStoreActionController.startAction(
         name: '_CandidatosStore.fetchCandidatos');
@@ -272,6 +325,8 @@ email: ${email},
 telefone: ${telefone},
 escolaridade: ${escolaridade},
 competencias: ${competencias},
+statusSolicitacao: ${statusSolicitacao},
+role: ${role},
 candidatosFuture: ${candidatosFuture},
 candidatos: ${candidatos}
     ''';

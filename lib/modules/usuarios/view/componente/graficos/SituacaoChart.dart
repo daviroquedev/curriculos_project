@@ -15,6 +15,12 @@ class SituacaoChart extends StatelessWidget {
           (situacaoDistribution[situacao] ?? 0) + 1;
     }
 
+    Map<String, Color> coresSituacoes = {
+      'APROVADO': Colors.green,
+      'PENDENTE': Colors.yellow,
+      'REPROVADO': Colors.red,
+    };
+
     return Column(
       children: [
         const Text('Gráfico de Distribuição da Situação dos Candidatos'),
@@ -26,12 +32,13 @@ class SituacaoChart extends StatelessWidget {
               sectionsSpace: 0,
               centerSpaceRadius: 40,
               sections: situacaoDistribution.entries.map((entry) {
+                var situacao = entry.key;
                 return PieChartSectionData(
-                  color: Colors.primaries[
-                      situacaoDistribution.keys.toList().indexOf(entry.key) %
-                          Colors.primaries.length],
+                  color: coresSituacoes.containsKey(situacao)
+                      ? coresSituacoes[situacao]
+                      : Colors.grey,
                   value: entry.value.toDouble(),
-                  title: entry.key,
+                  title: situacao,
                   radius: 50,
                 );
               }).toList(),

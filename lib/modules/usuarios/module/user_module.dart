@@ -1,3 +1,4 @@
+import 'package:curriculos_project/modules/usuarios/store/user_vagas_store.dart';
 import 'package:curriculos_project/modules/usuarios/view/admin_view/AdminHomePage.dart';
 import 'package:curriculos_project/modules/usuarios/view/admin_view/admin_candidatos_view/GraficosCandidatosPage.dart';
 import 'package:curriculos_project/modules/usuarios/view/simple_user_view/UserPage.dart';
@@ -27,6 +28,7 @@ class UserModule extends Module {
     i.addSingleton(CandidatoService.new);
     i.addSingleton(FlutterSecureStorage.new);
     i.addSingleton(CandidatosStore.new);
+    i.addSingleton(UserVagasStore.new);
   }
 
   @override

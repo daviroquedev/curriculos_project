@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import '../../../../uteis/translations/EscolaridadesTranslations.dart';
 import '../../../store/candidatos_store.dart';
 import '../../componente/CustomBottomAppBar.dart';
 
@@ -26,8 +27,14 @@ class CandidatoPage extends StatelessWidget {
                 FutureStatus.rejected) {
               return Text('Error: ${candidatosStore.candidatosFuture.error}');
             } else {
+              // Organizar a lista de candidatos
               List<Map<String, dynamic>> candidatos =
                   candidatosStore.candidatos;
+              candidatos.sort((a, b) {
+                // Ordenar por status de solicitação: Pendente > Aprovado > Reprovado
+                return _statusOrder(a['statusSolicitacao'])
+                    .compareTo(_statusOrder(b['statusSolicitacao']));
+              });
               return ListView.builder(
                 itemCount: candidatos.length,
                 itemBuilder: (context, index) {
@@ -57,10 +64,14 @@ class CandidatoPage extends StatelessWidget {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${candidato['escolaridade']}"),
+                          Text(
+                            Translations.escolaridadeOptions[
+                                    candidato['escolaridade']] ??
+                                candidato['escolaridade'],
+                          ),
                           Text("${candidato['funcao']}"),
                           Text(
-                            "${candidato['competencias'].entries.map((entry) => '${entry.key}: NV. ${entry.value}').join(', ')}",
+                            "${candidato['competencias'].entries.map((entry) => '${entry.key}: NV. ${entry.value}').join(' / ')}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
@@ -148,13 +159,24 @@ class CandidatoPage extends StatelessWidget {
       bottomNavigationBar: CustomBottomAppBar(
         onHomePressed: () {
           Modular.to.navigate("/user/admin");
-          // Implemente a ação para retornar à tela inicial
         },
         onChartsPressed: () {
           Modular.to.pushNamed("candidate/charts");
-          // Implemente a ação para acessar os gráficos
         },
       ),
     );
+  }
+
+  int _statusOrder(String status) {
+    switch (status) {
+      case 'Pendente':
+        return 0;
+      case 'APROVADO':
+        return 1;
+      case 'REPROVADO':
+        return 2;
+      default:
+        return 3;
+    }
   }
 }
